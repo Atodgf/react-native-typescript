@@ -12,7 +12,6 @@ const MainTab = () =>{
         <Tab.Navigator>
             <Tab.Screen name="main" component={Main}/>
             <Tab.Screen name="settings" component={Settings}/>
-            <Tab.Screen name="map" component={Map}/>
         </Tab.Navigator>
     )
 }
@@ -21,6 +20,7 @@ const AppStack: FC = () => {
     return(
         <Navigator screenOptions={{headerShown: false}}>
             <Screen name="mainTab" component={MainTab}/>
+            <Screen name="map" component={Map}/>
         </Navigator>
     )
 } 
