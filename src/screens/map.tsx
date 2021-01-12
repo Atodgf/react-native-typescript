@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Alert } from 'react-native'
+import { View, Text, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 
@@ -21,21 +21,22 @@ const signUp : FC = () => {
       }, []);
     console.log(location)
 
-    return (
+    return location !==null ?(
         <View style={styles.container}>
             <MapView
                 provider={PROVIDER_GOOGLE} 
                 style={styles.map}
+                showsUserLocation
                 region={{
-                    latitude: 53.9155828,
-                    longitude: 27.4885124,
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
                     latitudeDelta: 0.015,
                     longitudeDelta: 0.0121,
                 }}
                 >
             </MapView> 
         </View>
-    )
+    ) : <ActivityIndicator style={{flex:1}} animating size = "large"/>
 }
 
 export default signUp

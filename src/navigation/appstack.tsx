@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
+import {createStackNavigator,} from '@react-navigation/stack'
 import {Main, Settings, Map} from '../screens'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 
@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator()
 
 const MainTab = () =>{
     return(
-        <Tab.Navigator>
+        <Tab.Navigator >
             <Tab.Screen name="main" component={Main}/>
             <Tab.Screen name="settings" component={Settings}/>
         </Tab.Navigator>

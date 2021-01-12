@@ -1,5 +1,5 @@
 import React, { FC, useEffect, } from 'react'
-import {NavigationContainer} from '@react-navigation/native'
+import {NavigationContainer, DarkTheme, DefaultTheme} from '@react-navigation/native'
 import {  Alert} from 'react-native';
 import AppStack from './appstack'
 import AuthStack from './authstack'
@@ -10,6 +10,7 @@ import { AuthContext } from '../components/context'
 
 const MainNav : FC = () => {
     
+    const [isDarkTheme, setIsDarkTheme] = React.useState(false)
 
     const inicialLoginState = {
         isLoading: true,
@@ -17,6 +18,26 @@ const MainNav : FC = () => {
         password: null,
         userToken:null
       }
+
+    const CustomDefaultTheme = {
+      ...DefaultTheme,
+      colors: {
+        ...DefaultTheme.colors,
+        backgroud:'#ffffff',
+        text: '#333333'
+      }
+    } 
+    
+    const CustomDarkTheme = {
+      ...DarkTheme,
+      colors: {
+        ...DarkTheme.colors,
+        backgroud:'#333333',
+        text: '#ffffff'
+      }
+    }  
+
+    const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme
 
     const loginReducer = (prevState:any, action:any) => {
         switch (action.type) {
@@ -90,6 +111,9 @@ const MainNav : FC = () => {
             }
             
           dispatch({type: 'REGISTER', id: login, value: password})
+        },
+        toggleTheme:()=>{
+          setIsDarkTheme(isDarkTheme=>!isDarkTheme)
         }
       }), [])
     
@@ -110,9 +134,9 @@ const MainNav : FC = () => {
 
     return(
         <AuthContext.Provider value={authContext}>
-            <NavigationContainer>
+          <NavigationContainer theme={theme}>
             {loginState.userToken !== null ? <AppStack /> : <AuthStack/>}
-        </NavigationContainer>
+          </NavigationContainer>
         </AuthContext.Provider>
     )
 }
