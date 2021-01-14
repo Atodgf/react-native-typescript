@@ -1,6 +1,6 @@
 import React, { FC, useEffect, } from 'react'
 import {NavigationContainer, DarkTheme, DefaultTheme} from '@react-navigation/native'
-import {  Alert} from 'react-native';
+import {  Alert, View, ActivityIndicator} from 'react-native';
 import AppStack from './appstack'
 import AuthStack from './authstack'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -114,6 +114,20 @@ const MainNav : FC = () => {
         },
         toggleTheme:()=>{
           setIsDarkTheme(isDarkTheme=>!isDarkTheme)
+        },
+        shopForm: async(name:any, type:any, price:any, latitude:any, lontitude:any) =>{
+          const newShop = {
+            shopname: name,
+            shoptype: type,
+            shopprice: price,
+            shoplatitude: latitude,
+            shoplontitude: lontitude
+          }
+          try {
+            await AsyncStorage.setItem(name, JSON.stringify(newShop))
+          } catch(e) {
+            console.log(e)
+        }
         }
       }), [])
     
@@ -130,7 +144,13 @@ const MainNav : FC = () => {
         }, 1000)
       }, [])
 
-
+      if (loginState.isLoading) {
+        return(
+          <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+            <ActivityIndicator size="large"/>
+          </View>
+        )
+      }
 
     return(
         <AuthContext.Provider value={authContext}>
