@@ -51,7 +51,7 @@ const shopForm : FC = (props:any) => {
                     onValueChange={(itemValue, itemIndex) =>
                         setData({...data, type: itemValue})
                     }
-                >
+                >   
                     <Picker.Item label="boutique" value="boutique" />
                     <Picker.Item label="bazaar" value="bazaar" />
                     <Picker.Item label="supermarket" value="supermarket" />
@@ -76,6 +76,7 @@ const shopForm : FC = (props:any) => {
             <Input placeholder="Latitude" onChangeText={(val) => handleLatitudeChange(val)}/>
             <Input placeholder="Lontitude" onChangeText={(val) => handleLontitudeChange(val)}/>
             <Button title="Create" onPress={()=> {shopsHandle(data.name, data.type, data.price, data.latitude, data.lontitude)}}/>
+            <Button title="Back" onPress={()=>props.navigation.goBack() }/>
         </View>
     )
 }

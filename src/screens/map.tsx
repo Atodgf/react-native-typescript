@@ -1,22 +1,24 @@
 import React, { FC, useState, useEffect } from 'react'
 import { View, Text, StyleSheet, Alert, ActivityIndicator, } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, } from 'react-native-maps';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-community/async-storage'
 import {  Button } from '../components'
 
 
-const Map : FC = () => {
+const Map : FC = (props:any) => {
     const [location, setLocation] = useState<any>(null);
+    const [shop, setShop] = useState<any>(null);
 
-    
-    
     useEffect(() => {
         (async () => {
           let keys = await AsyncStorage.getAllKeys()
           let shops = keys.reverse().slice(3)
+          const finall:any = [] 
           shops.forEach(async(item)=>{
-            console.log(JSON.parse(await AsyncStorage.getItem(item) || '{}'))
+            finall.push(JSON.parse(await AsyncStorage.getItem(item) || '{}'))
+            console.log(finall)
+            setShop(finall)
           })
           
 
@@ -30,12 +32,8 @@ const Map : FC = () => {
           setLocation(location);
         })();
       }, []);
-    
-    const testFunc = () =>{
-        
-    }
 
-    return location  !==null ?(
+    return location !==null ?(
         <View style={styles.container}>
             <MapView
                 provider={PROVIDER_GOOGLE} 
@@ -48,9 +46,27 @@ const Map : FC = () => {
                     longitudeDelta: 0.0121,
                 }}
                 >
-                
+                    {shop.map((marker:any, index:any)=>{
+                        if (marker.shoptype ==='supermarket'){
+                            return(
+                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Azure.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                            )
+                        } if (marker.shoptype ==='boutique'){
+                            return(
+                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Chartreuse.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                            )
+                        }if(marker.shoptype ==='bazaar'){
+                            return(
+                                <Marker title={marker.shopname} key={index} image={require('../images/map-marker-icon.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                            )
+                        }else {
+                            return(
+                                <Marker title={marker.shopname} key={index}  coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                            )
+                        }
+                    })}
             </MapView> 
-            <Button title="Test" onPress={()=> {testFunc()}}/>
+            <Button title="Back" onPress={()=>props.navigation.goBack() }/>
         </View>
     ) : <ActivityIndicator style={{flex:1}} animating size = "large"/>
 }

@@ -36,7 +36,6 @@ const signUp : FC = () => {
           setLocation(location);
         })();
       }, []);
-    console.log(location)
 
     const [data, setData] = React.useState ({
         city:"",

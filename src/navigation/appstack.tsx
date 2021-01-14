@@ -12,7 +12,6 @@ const MainTab = () =>{
         <Tab.Navigator >
             <Tab.Screen name="Main" component={Main}/>
             <Tab.Screen name="Settings" component={Settings}/>
-            <Tab.Screen name="Shops" component={ShopForm}/>
         </Tab.Navigator>
     )
 }
@@ -22,6 +21,7 @@ const AppStack: FC = () => {
         <Navigator screenOptions={{headerShown: false}}>
             <Screen name="mainTab" component={MainTab}/>
             <Screen name="map" component={Map}/>
+            <Screen name="shopForm" component={ShopForm}/>
         </Navigator>
     )
 } 

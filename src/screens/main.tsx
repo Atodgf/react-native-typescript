@@ -8,6 +8,7 @@ const signUp : FC = (props:any) => {
     return (
         <View style={styles.container}>
             <Button title="Map" onPress={()=> props.navigation.navigate('map')}/>
+            <Button title="Create new shop" onPress={()=> props.navigation.navigate('shopForm')}/>
         </View>
     )
 }
