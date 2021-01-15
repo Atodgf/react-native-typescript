@@ -4,6 +4,7 @@ import MapView, { PROVIDER_GOOGLE, Marker, } from 'react-native-maps';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-community/async-storage'
 import {  Button } from '../components'
+import { TextInput } from 'react-native-gesture-handler';
 
 
 const Map : FC = (props:any) => {
@@ -17,7 +18,6 @@ const Map : FC = (props:any) => {
           const finall:any = [] 
           shops.forEach(async(item)=>{
             finall.push(JSON.parse(await AsyncStorage.getItem(item) || '{}'))
-            console.log(finall)
             setShop(finall)
           })
           
@@ -66,7 +66,21 @@ const Map : FC = (props:any) => {
                         }
                     })}
             </MapView> 
-            <Button title="Back" onPress={()=>props.navigation.goBack() }/>
+            <View style={styles.searchBox}>
+                    <TextInput
+                    placeholder="Search here"
+                    placeholderTextColor="#000"
+                    autoCapitalize="none"
+                    style={{flex:1,padding:0}}
+                    />
+            </View>
+            <View style={{
+                height:"100%",
+                width:"100%",
+                alignItems: 'center',
+                justifyContent: 'flex-end',}}>
+                <Button title="Back" onPress={()=>props.navigation.goBack() }/>
+            </View>
         </View>
     ) : <ActivityIndicator style={{flex:1}} animating size = "large"/>
 }
@@ -78,7 +92,22 @@ const styles = StyleSheet.create({
         height:"100%",
         width:"100%",
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        
+      },
+      searchBox:{
+          position:'absolute',
+          marginTop: 30,
+          flexDirection:'row',
+          backgroundColor:'#fff',
+          width:'90%',
+          alignSelf:'center',
+          borderRadius:5,
+          padding:10,
+          shadowColor:'#ccc',
+          shadowOffset:{width:0, height:3},
+          shadowOpacity:0.5,
+          shadowRadius:5,
+          elevation:10
       },
       map:{
           ...StyleSheet.absoluteFillObject

@@ -112,9 +112,11 @@ const MainNav : FC = () => {
             
           dispatch({type: 'REGISTER', id: login, value: password})
         },
+
         toggleTheme:()=>{
           setIsDarkTheme(isDarkTheme=>!isDarkTheme)
         },
+        
         shopForm: async(name:any, type:any, price:any, latitude:any, lontitude:any) =>{
           const newShop = {
             shopname: name,

@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import {createStackNavigator,} from '@react-navigation/stack'
-import {Main, Settings, Map, ShopForm} from '../screens'
+import {Main, Settings, Map, ShopForm, ShopsList} from '../screens'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 
 const {Navigator, Screen} = createStackNavigator()
@@ -12,6 +12,7 @@ const MainTab = () =>{
         <Tab.Navigator >
             <Tab.Screen name="Main" component={Main}/>
             <Tab.Screen name="Settings" component={Settings}/>
+            <Tab.Screen name="Shops" component={ShopsList}/>
         </Tab.Navigator>
     )
 }

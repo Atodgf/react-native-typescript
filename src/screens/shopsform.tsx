@@ -1,5 +1,5 @@
 import React, { FC, } from 'react'
-import { View, Text, StyleSheet,  } from 'react-native'
+import { View, Text, StyleSheet, Alert,  } from 'react-native'
 import { Input, Button } from '../components'
 import { AuthContext } from '../components/context'
 import {Picker} from '@react-native-picker/picker';
@@ -38,6 +38,11 @@ const shopForm : FC = (props:any) => {
         
         shopForm(name, type, price, latitude, lontitude)
     }
+    const createHandle = () =>{
+        shopsHandle(data.name, data.type, data.price, data.latitude, data.lontitude)
+        Alert.alert('Success!','You succesfully created a new shop!')
+        props.navigation.navigate('mainTab')
+    }
 
     return (
         <View style={styles.container}>
@@ -75,7 +80,7 @@ const shopForm : FC = (props:any) => {
             <Text>Coordinates:</Text>
             <Input placeholder="Latitude" onChangeText={(val) => handleLatitudeChange(val)}/>
             <Input placeholder="Lontitude" onChangeText={(val) => handleLontitudeChange(val)}/>
-            <Button title="Create" onPress={()=> {shopsHandle(data.name, data.type, data.price, data.latitude, data.lontitude)}}/>
+            <Button title="Create" onPress={()=> {createHandle()}}/>
             <Button title="Back" onPress={()=>props.navigation.goBack() }/>
         </View>
     )
