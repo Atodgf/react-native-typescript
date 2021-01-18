@@ -3,6 +3,7 @@ import { View, Text, StyleSheet,  } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Input, Button } from '../components'
 import { AuthContext } from '../components/context'
+import schema from '../schemas/validationscheme'
 
 
 const signUp : FC = (props:any) => {
@@ -25,9 +26,8 @@ const signUp : FC = (props:any) => {
             password:val
         })
     }
-    const loginHandle = (login:any, password:any) => {
-        
-        signIn(login, password)
+    const loginHandle =  async (login:any, password:any) => {
+         signIn(login, password)
     }
 
     return (

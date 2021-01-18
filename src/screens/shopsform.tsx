@@ -11,7 +11,8 @@ const shopForm : FC = (props:any) => {
         type: '',
         price: '',
         latitude:'',
-        lontitude: ''
+        lontitude: '',
+        isFavourite: false
     })
 
     const { shopForm } = React.useContext(AuthContext)
@@ -34,12 +35,12 @@ const shopForm : FC = (props:any) => {
             lontitude:val,
         })
     }
-    const shopsHandle = (name:any, type:any, price:any, latitude:any, lontitude:any, ) => {
+    const shopsHandle = (name:any, type:any, price:any, latitude:any, lontitude:any, isFavourite:any) => {
         
-        shopForm(name, type, price, latitude, lontitude)
+        shopForm(name, type, price, latitude, lontitude, isFavourite)
     }
     const createHandle = () =>{
-        shopsHandle(data.name, data.type, data.price, data.latitude, data.lontitude)
+        shopsHandle(data.name, data.type, data.price, data.latitude, data.lontitude, data.isFavourite)
         Alert.alert('Success!','You succesfully created a new shop!')
         props.navigation.navigate('mainTab')
     }

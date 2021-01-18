@@ -5,7 +5,8 @@ type ContextProps = {
     signUp: any,
     signOut: any,
     toggleTheme:any,
-    shopForm:any
+    shopForm:any,
+    favHandler:any
   };
 
 export const AuthContext = React.createContext<Partial<ContextProps>>({})

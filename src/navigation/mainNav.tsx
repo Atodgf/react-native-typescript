@@ -5,7 +5,7 @@ import AppStack from './appstack'
 import AuthStack from './authstack'
 import AsyncStorage from '@react-native-community/async-storage'
 import { AuthContext } from '../components/context'
-
+import schema from '../schemas/validationscheme'
 
 
 const MainNav : FC = () => {
@@ -73,8 +73,7 @@ const MainNav : FC = () => {
 
     const authContext = React.useMemo(() => ({
         signIn: async(login:any, password:any) => {
-          let userToken
-          userToken = null
+          let userToken = null
           const storagelogin = await AsyncStorage.getItem('login')
           const storagePassword = await AsyncStorage.getItem('password')
           if (login === storagelogin && password === storagePassword) {
@@ -117,19 +116,25 @@ const MainNav : FC = () => {
           setIsDarkTheme(isDarkTheme=>!isDarkTheme)
         },
         
-        shopForm: async(name:any, type:any, price:any, latitude:any, lontitude:any) =>{
+        shopForm: async(name:any, type:any, price:any, latitude:any, lontitude:any, isFavourite: boolean) =>{
           const newShop = {
             shopname: name,
             shoptype: type,
             shopprice: price,
             shoplatitude: latitude,
-            shoplontitude: lontitude
+            shoplontitude: lontitude, 
+            isFavourite: isFavourite
           }
           try {
             await AsyncStorage.setItem(name, JSON.stringify(newShop))
           } catch(e) {
             console.log(e)
         }
+        },
+        favHandler: async( name:string) =>{
+          const shop = JSON.parse(await AsyncStorage.getItem(name) || '{}')
+          shop.isFavourite =!shop.isFavourite
+          await AsyncStorage.setItem(name, JSON.stringify(shop))
         }
       }), [])
     
