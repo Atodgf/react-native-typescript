@@ -3,7 +3,6 @@ import { View, Text, StyleSheet,  } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Input, Button } from '../components'
 import { AuthContext } from '../components/context'
-import schema from '../schemas/validationscheme'
 
 
 const signUp : FC = (props:any) => {

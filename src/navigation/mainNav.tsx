@@ -135,6 +135,8 @@ const MainNav : FC = () => {
           const shop = JSON.parse(await AsyncStorage.getItem(name) || '{}')
           shop.isFavourite =!shop.isFavourite
           await AsyncStorage.setItem(name, JSON.stringify(shop))
+          const asd = await AsyncStorage.getItem(name)
+          console.log(asd)
         }
       }), [])
     

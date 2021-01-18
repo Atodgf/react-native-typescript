@@ -1,15 +1,30 @@
 import React, { FC, useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Alert, ActivityIndicator, } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Marker, } from 'react-native-maps';
+import { View, StyleSheet, Alert, ActivityIndicator, Button as ReactButton } from 'react-native'
+import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
+import {  Button as ButtonIcon, Icon, Text } from 'native-base';
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-community/async-storage'
 import {  Button } from '../components'
 import { TextInput } from 'react-native-gesture-handler';
+import { AuthContext } from '../components/context'
 
 
 const Map : FC = (props:any) => {
     const [location, setLocation] = useState<any>(null);
-    const [shop, setShop] = useState<any>(null);
+    const [shop, setShop] = useState<any>('');
+    const [search, setSearch] = useState<any>('');
+
+    const { favHandler } = React.useContext(AuthContext)
+
+    const setFavourite = async ( name:string)=>{
+        favHandler( name)
+      }
+    
+    const favourite = () =>{
+        shop.map((item:any)=>{
+            console.log(item.isFavourite)
+        })
+    }
 
     useEffect(() => {
         (async () => {
@@ -32,7 +47,7 @@ const Map : FC = (props:any) => {
           setLocation(location);
         })();
       }, []);
-
+    
     return location !==null ?(
         <View style={styles.container}>
             <MapView
@@ -46,32 +61,75 @@ const Map : FC = (props:any) => {
                     longitudeDelta: 0.0121,
                 }}
                 >
-                    {shop.map((marker:any, index:any)=>{
+                    {shop.filter( (item:any) =>{return item.shopname.toLowerCase().includes(search.toLowerCase())}).map((marker:any, index:any)=>{
+                                console.log(marker.isFavourite)
+                            
                         if (marker.shoptype ==='supermarket'){
                             return(
-                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Azure.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Azure.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                        <View style={styles.bubble}>
+                                            <Text>Shop name: {marker.shopname}</Text>
+                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <ButtonIcon small rounded  dark  >
+                                                <Icon name='heart' />
+                                            </ButtonIcon>
+                                        </View>
+                                    </Callout>
+                                </Marker>
                             )
                         } if (marker.shoptype ==='boutique'){
                             return(
-                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Chartreuse.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Chartreuse.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                        <View style={styles.bubble}>
+                                            <Text>Shop name: {marker.shopname}</Text>
+                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <ButtonIcon small rounded  dark >
+                                                <Icon name='heart' />
+                                            </ButtonIcon>
+                                        </View>
+                                    </Callout>
+                                </Marker>
                             )
                         }if(marker.shoptype ==='bazaar'){
                             return(
-                                <Marker title={marker.shopname} key={index} image={require('../images/map-marker-icon.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                                <Marker title={marker.shopname} key={index} image={require('../images/map-marker-icon.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                        <View style={styles.bubble}>
+                                            <Text>Shop name: {marker.shopname}</Text>
+                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <ButtonIcon small rounded  dark >
+                                                <Icon name='heart' />
+                                            </ButtonIcon>
+                                        </View>
+                                    </Callout>
+                                </Marker>
                             )
                         }else {
                             return(
-                                <Marker title={marker.shopname} key={index}  coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}/>
+                                <Marker title={marker.shopname} key={index} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                        <View style={styles.bubble}>
+                                            <Text>Shop name: {marker.shopname}</Text>
+                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <ButtonIcon small rounded  dark >
+                                                <Icon name='heart' />
+                                            </ButtonIcon>
+                                        </View>
+                                    </Callout>
+                                </Marker>
                             )
                         }
                     })}
             </MapView> 
             <View style={styles.searchBox}>
                     <TextInput
-                    placeholder="Search here"
+                    placeholder="Search here!"
                     placeholderTextColor="#000"
                     autoCapitalize="none"
                     style={{flex:1,padding:0}}
+                    onChangeText={text =>{setSearch(text)}}
                     />
             </View>
             <View style={{
@@ -79,6 +137,7 @@ const Map : FC = (props:any) => {
                 width:"100%",
                 alignItems: 'center',
                 justifyContent: 'flex-end',}}>
+                <Button title="Favourite" onPress={()=>favourite() }/>
                 <Button title="Back" onPress={()=>props.navigation.goBack() }/>
             </View>
         </View>
@@ -111,5 +170,12 @@ const styles = StyleSheet.create({
       },
       map:{
           ...StyleSheet.absoluteFillObject
+      },
+      bubble: {
+        flexDirection: 'column',
+        alignSelf: 'flex-start',
+        backgroundColor: '#fff',
+        borderRadius: 6,
+        borderColor: '#ccc'
       }
 })

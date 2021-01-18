@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react'
-import { StyleSheet, Alert, ActivityIndicator, FlatList  } from 'react-native'
+import { StyleSheet, FlatList  } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
-import { Container, Header, Item, Input, Icon, Button, Text, Content, List, ListItem } from 'native-base';
+import { Container, Header, Item, Input, Icon, Button, Text, List, ListItem } from 'native-base';
 import { AuthContext } from '../components/context'
 
 
