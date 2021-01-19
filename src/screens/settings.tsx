@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Switch, Alert } from 'react-native'
-import { Input, Button } from '../components'
+import {  Button } from '../components'
 import { AuthContext } from '../components/context'
 import {useTheme} from 'react-native-paper'
 import * as Location from 'expo-location';
@@ -15,7 +15,6 @@ const signUp : FC = () => {
     const {colors} = useTheme()
 
     const [location, setLocation] = useState<any>(null);
-
 
     useEffect(() => {
         (async () => {

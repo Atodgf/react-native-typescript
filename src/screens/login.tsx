@@ -1,8 +1,9 @@
 import React, { FC, } from 'react'
-import { View, Text, StyleSheet,  } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Input, Button } from '../components'
 import { AuthContext } from '../components/context'
+import schema from '../schemas/loginscheme'
 
 
 const signUp : FC = (props:any) => {
@@ -10,6 +11,7 @@ const signUp : FC = (props:any) => {
         login: '',
         password: ''
     })
+    
 
     const { signIn } = React.useContext(AuthContext)
 
@@ -26,7 +28,16 @@ const signUp : FC = (props:any) => {
         })
     }
     const loginHandle =  async (login:any, password:any) => {
-         signIn(login, password)
+        const isValid = await schema.isValid(data)
+        if (isValid === true) {
+            signIn(login, password)
+        } else {
+            Alert.alert('Wrong Input!', 'Please try again', [
+                {text: 'Ok'}
+            ]);
+            return;
+        }
+         
     }
 
     return (

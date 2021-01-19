@@ -5,7 +5,6 @@ import AppStack from './appstack'
 import AuthStack from './authstack'
 import AsyncStorage from '@react-native-community/async-storage'
 import { AuthContext } from '../components/context'
-import schema from '../schemas/validationscheme'
 
 
 const MainNav : FC = () => {

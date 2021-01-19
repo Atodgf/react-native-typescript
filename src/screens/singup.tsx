@@ -1,8 +1,9 @@
-import React, { FC, useState } from 'react'
+import React, { FC,} from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Input, Button } from '../components'
 import { AuthContext } from '../components/context'
+import schema from '../schemas/registrationscheme'
 
 
 const signUp : FC = (props:any) => {
@@ -36,11 +37,12 @@ const signUp : FC = (props:any) => {
     }
 
 
-    const registerHandle = (login:any, password:any) => {
-        
-        if ( data.password !== data.confirmPassword ) {
-            Alert.alert('Wrong Input!', 'Password doesn\'t match', [
-                {text: 'Okay'}
+    const registerHandle = async  (login:any, password:any) => {
+        const isValid = await schema.isValid(data)
+          console.log(isValid)
+        if ( isValid===false ) {
+            Alert.alert('Wrong Input!', 'Please try again', [
+                {text: 'Ok'}
             ]);
             return;
         }  else {
