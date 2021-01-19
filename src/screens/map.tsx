@@ -21,8 +21,12 @@ const Map : FC = (props:any) => {
       }
     
     const favourite = () =>{
-        shop.map((item:any)=>{
-            console.log(item.isFavourite)
+        const favouriteShops:any = ([])
+        shop.forEach((item:any)=>{
+            if (item.isFavourite==true){
+                favouriteShops.push((item))
+            }
+            setShop(favouriteShops)
         })
     }
 
@@ -61,16 +65,15 @@ const Map : FC = (props:any) => {
                     longitudeDelta: 0.0121,
                 }}
                 >
-                    {shop.filter( (item:any) =>{return item.shopname.toLowerCase().includes(search.toLowerCase())}).map((marker:any, index:any)=>{
-                                console.log(marker.isFavourite)
+                    {shop.filter( (item:any) =>{return item.shopname.toLowerCase().includes(search.toLowerCase())}).map((item:any, index:any)=>{
                             
-                        if (marker.shoptype ==='supermarket'){
+                        if (item.shoptype ==='supermarket'){
                             return(
-                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Azure.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
-                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                <Marker title={item.shopname} key={index} image={require('../images/Map-Marker-Azure.png')} coordinate={{latitude:parseFloat(item.shoplatitude), longitude: parseFloat(item.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( item.shopname)}}>
                                         <View style={styles.bubble}>
-                                            <Text>Shop name: {marker.shopname}</Text>
-                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <Text>Shop name: {item.shopname}</Text>
+                                            <Text>Shop type: {item.shoptype}</Text>
                                             <ButtonIcon small rounded  dark  >
                                                 <Icon name='heart' />
                                             </ButtonIcon>
@@ -78,13 +81,13 @@ const Map : FC = (props:any) => {
                                     </Callout>
                                 </Marker>
                             )
-                        } if (marker.shoptype ==='boutique'){
+                        } if (item.shoptype ==='boutique'){
                             return(
-                                <Marker title={marker.shopname} key={index} image={require('../images/Map-Marker-Chartreuse.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
-                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                <Marker title={item.shopname} key={index} image={require('../images/Map-Marker-Chartreuse.png')} coordinate={{latitude:parseFloat(item.shoplatitude), longitude: parseFloat(item.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( item.shopname)}}>
                                         <View style={styles.bubble}>
-                                            <Text>Shop name: {marker.shopname}</Text>
-                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <Text>Shop name: {item.shopname}</Text>
+                                            <Text>Shop type: {item.shoptype}</Text>
                                             <ButtonIcon small rounded  dark >
                                                 <Icon name='heart' />
                                             </ButtonIcon>
@@ -92,13 +95,13 @@ const Map : FC = (props:any) => {
                                     </Callout>
                                 </Marker>
                             )
-                        }if(marker.shoptype ==='bazaar'){
+                        }if(item.shoptype ==='bazaar'){
                             return(
-                                <Marker title={marker.shopname} key={index} image={require('../images/map-marker-icon.png')} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
-                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                <Marker title={item.shopname} key={index} image={require('../images/map-marker-icon.png')} coordinate={{latitude:parseFloat(item.shoplatitude), longitude: parseFloat(item.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( item.shopname)}}>
                                         <View style={styles.bubble}>
-                                            <Text>Shop name: {marker.shopname}</Text>
-                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <Text>Shop name: {item.shopname}</Text>
+                                            <Text>Shop type: {item.shoptype}</Text>
                                             <ButtonIcon small rounded  dark >
                                                 <Icon name='heart' />
                                             </ButtonIcon>
@@ -108,11 +111,11 @@ const Map : FC = (props:any) => {
                             )
                         }else {
                             return(
-                                <Marker title={marker.shopname} key={index} coordinate={{latitude:parseFloat(marker.shoplatitude), longitude: parseFloat(marker.shoplontitude) }}>
-                                    <Callout tooltip onPress={()=>{setFavourite( marker.shopname)}}>
+                                <Marker title={item.shopname} key={index} coordinate={{latitude:parseFloat(item.shoplatitude), longitude: parseFloat(item.shoplontitude) }}>
+                                    <Callout tooltip onPress={()=>{setFavourite( item.shopname)}}>
                                         <View style={styles.bubble}>
-                                            <Text>Shop name: {marker.shopname}</Text>
-                                            <Text>Shop type: {marker.shoptype}</Text>
+                                            <Text>Shop name: {item.shopname}</Text>
+                                            <Text>Shop type: {item.shoptype}</Text>
                                             <ButtonIcon small rounded  dark >
                                                 <Icon name='heart' />
                                             </ButtonIcon>
