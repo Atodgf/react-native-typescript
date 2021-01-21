@@ -54,9 +54,9 @@ const signUp : FC = (props:any) => {
     return (
         <View style={styles.container}>
             <Text>Sign Up screen</Text>
-            <Input placeholder="Login" onChangeText={(val) => handleLoginChange(val)}/>
-            <Input placeholder="Password" secureTextEntry onChangeText={(val) => handlePasswordChange(val)}/>
-            <Input placeholder="Confirm Password" secureTextEntry onChangeText={(val) => handleConfirmPasswordChange(val)}/>
+            <Input placeholder="Login"  onChangeText={(val) => handleLoginChange(val)}/>
+            <Input placeholder="Password"  secureTextEntry onChangeText={(val) => handlePasswordChange(val)}/>
+            <Input placeholder="Confirm Password"  secureTextEntry onChangeText={(val) => handleConfirmPasswordChange(val)}/>
             <Button title="Sign Up" onPress={()=> {registerHandle(data.login, data.password)}}/>
             <View style={styles.loginText}>
                 <Text style={{marginHorizontal:5}}>Already have an account?</Text>

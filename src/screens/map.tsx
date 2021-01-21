@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {  Button } from '../components'
 import { TextInput } from 'react-native-gesture-handler';
 import { AuthContext } from '../context/context'
-import Geofence from 'react-native-expo-geofence';
+
 
 
 const Map : FC = (props:any) => {
@@ -33,29 +33,8 @@ const Map : FC = (props:any) => {
         })
     }
 
-    const points = [
-        { latitude: 53.91, longitude: 27.48 },
-        { latitude: 53.92, longitude: 27.47 }
-    ]
-
-    const startPoint = { 
-        latitude: 53.91557693481445,
-        longitude: 27.488496780395508
-    }
     
 
-    const getByProximity =() =>
-    {
-        const  maxDistanceInKM = 0.5; // 500m distance
-        // startPoint - center of perimeter
-        // points - array of points
-        // maxDistanceInKM - max point distance from startPoint in KM's
-        // result - array of points inside the max distance
-        const  result = Geofence.filterByProximity(startPoint, points, maxDistanceInKM);
- 
-        // You can access distance of this object in distanceInKM property
-        console.log(result)
-    }
     
     useEffect(() => {
         (async () => {
@@ -179,7 +158,7 @@ const Map : FC = (props:any) => {
                         onChangeText={text =>{setButton(text)}}/>
                     <Button title="Radius" onPress={()=>setRadius(parseInt(button)) }/>
                 </View>
-                <Button title="Favourite" onPress={()=>getByProximity() }/>
+                <Button title="Favourite" onPress={()=>favourite() }/>
                 <Button title="Back" onPress={()=>props.navigation.goBack() }/>
             </View>
         </View>

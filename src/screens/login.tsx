@@ -15,26 +15,20 @@ const signUp : FC = (props:any) => {
 
     const { signIn } = React.useContext(AuthContext)
 
-    const handleLoginChange = (val:any) => {
+    const handleLoginChange = (val:string) => {
         setData({
             ...data,
             login:val
         })
     }
-    const handlePasswordChange = (val:any) => {
+    const handlePasswordChange = (val:string) => {
         setData({
             ...data,
             password:val
         })
     }
 
-    const handleChange = (val:any) => {
-        setData({
-            ...data,
-            password:val
-        })
-    }
-    const loginHandle =  async (login:any, password:any) => {
+    const loginHandle =  async (login:string, password:string) => {
         const isValid = await schema.isValid(data)
         if (isValid === true) {
             signIn(login, password)
@@ -50,8 +44,8 @@ const signUp : FC = (props:any) => {
     return (
         <View style={styles.container}>
             <Text>Login screen</Text>
-            <Input placeholder="Login" onChangeText={(val) => handleLoginChange(val)}/>
-            <Input placeholder="Password" secureTextEntry onChangeText={(val) => handlePasswordChange(val)}/>
+            <Input placeholder="Login"  onChangeText={(login) => handleLoginChange(login)}/>
+            <Input placeholder="Password"  secureTextEntry onChangeText={(password) => handlePasswordChange(password)}/>
             <Button title="Login" onPress={()=> {loginHandle(data.login, data.password)}}/>
             <View style={styles.loginText}>
                 <Text style={{marginHorizontal:5}}>Don't have an account?</Text>
