@@ -1,7 +1,7 @@
 import React, { FC, } from 'react'
 import { View, Text, StyleSheet, Alert,  } from 'react-native'
 import { Input, Button } from '../components'
-import { AuthContext } from '../components/context'
+import { AuthContext } from '../context/context'
 import {Picker} from '@react-native-picker/picker';
 
 

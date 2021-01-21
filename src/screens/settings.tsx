@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Switch, Alert } from 'react-native'
 import {  Button } from '../components'
-import { AuthContext } from '../components/context'
+import { AuthContext } from '../context/context'
 import {useTheme} from 'react-native-paper'
 import * as Location from 'expo-location';
 

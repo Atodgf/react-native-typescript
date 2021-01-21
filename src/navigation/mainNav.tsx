@@ -4,7 +4,7 @@ import {  Alert, View, ActivityIndicator} from 'react-native';
 import AppStack from './appstack'
 import AuthStack from './authstack'
 import AsyncStorage from '@react-native-community/async-storage'
-import { AuthContext } from '../components/context'
+import { AuthContext } from '../context/context'
 
 
 const MainNav : FC = () => {
