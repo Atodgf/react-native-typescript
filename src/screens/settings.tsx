@@ -18,7 +18,7 @@ const signUp : FC = () => {
 
     useEffect(() => {
         (async () => {
-          let { status } = await Location.requestPermissionsAsync();
+          let  {status } = await Location.requestPermissionsAsync();
           if (status !== 'granted') {
             Alert.alert('Permission to access location was denied');
             return;

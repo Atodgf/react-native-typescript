@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useState, useEffect, useRef } from 'react'
 import { View, StyleSheet, Alert, ActivityIndicator, Button as ReactButton, TextInput as Input } from 'react-native'
 import MapView, { PROVIDER_GOOGLE, Marker, Callout, Circle } from 'react-native-maps';
 import {  Button as ButtonIcon, Icon, Text } from 'native-base';
@@ -7,15 +7,49 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {  Button } from '../components'
 import { TextInput } from 'react-native-gesture-handler';
 import { AuthContext } from '../context/context'
+import * as TaskManager from 'expo-task-manager';
+import { LocationGeofencingEventType } from 'expo-location';
+import * as Notifications from 'expo-notifications'
+import * as Permissions from 'expo-permissions'
 
-
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
 
 const Map : FC = (props:any) => {
     const [location, setLocation] = useState<any>(null);
     const [shop, setShop] = useState<any>('');
     const [search, setSearch] = useState<any>('');
-    const [radius, setRadius] = useState<number>(0);
-    const [button, setButton] = useState<any>('');
+    const [regions, setRegions] = useState<any>([{
+        latitude:53.92,
+        longitude:27.47,
+        radius:1
+    }]);
+    const [button, setButton] = useState<string>('');
+    const [expoPushToken, setExpoPushToken] = useState<any>('');
+
+    useEffect(()=>{
+        registerForPushNotification().then(token => setExpoPushToken(token)).catch(err=>console.log(err))
+      
+    }, [])
+
+    const registerForPushNotification = async() =>{
+        const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+        if (status!='granted') {
+            const {status} =await Permissions.askAsync(Permissions.NOTIFICATIONS)
+        }
+        if (status!='granted') {
+            alert('Fail')
+            return
+        }
+        const token = (await Notifications.getExpoPushTokenAsync()).data
+        console.log(token)
+        return token
+    }
 
     const { favHandler } = React.useContext(AuthContext)
 
@@ -32,9 +66,6 @@ const Map : FC = (props:any) => {
             setShop(favouriteShops)
         })
     }
-
-    
-
     
     useEffect(() => {
         (async () => {
@@ -52,12 +83,15 @@ const Map : FC = (props:any) => {
             Alert.alert('Permission to access location was denied');
             return;
           }
-          
+        const check = Location.startGeofencingAsync('taskName', regions)
+        
+        console.log(check)
           let location = await Location.getCurrentPositionAsync({});
           setLocation(location);
         })();
       }, []);
-    
+      
+
     return location !==null ?(
         <View style={styles.container}>
             <MapView
@@ -71,12 +105,6 @@ const Map : FC = (props:any) => {
                     longitudeDelta: 0.0121,
                 }}
                 >
-                    <Circle center={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,}}
-                        radius={radius}
-                        strokeColor={'#0096c7'}
-                        fillColor={'rgba(0, 150, 199,0.2)'}/>
                     {shop.filter( (item:any) =>{return item.shopname.toLowerCase().includes(search.toLowerCase())}).map((item:any, index:any)=>{
                             
                         if (item.shoptype ==='supermarket'){
@@ -156,7 +184,11 @@ const Map : FC = (props:any) => {
                 <View>
                     <Input style={styles.radius}
                         onChangeText={text =>{setButton(text)}}/>
-                    <Button title="Radius" onPress={()=>setRadius(parseInt(button)) }/>
+                    <Button title="Radius" onPress={()=>setRegions([{
+                        latitude:53.92,
+                        longitude:27.47,
+                        radius:parseInt(button)
+    }]) }/>
                 </View>
                 <Button title="Favourite" onPress={()=>favourite() }/>
                 <Button title="Back" onPress={()=>props.navigation.goBack() }/>
@@ -167,6 +199,38 @@ const Map : FC = (props:any) => {
 
 export default Map
 
+TaskManager.defineTask('taskName', ({ data: { eventType, region }, error }) => {
+    if (error) {
+      // check `error.message` for more details.
+      return;
+    }
+    if (eventType === LocationGeofencingEventType.Enter) {
+      console.log("You've entered region:", region);
+       async (expoPushToken:any) =>{
+        const message = {
+          to: expoPushToken,
+          sound: 'default',
+          title: 'Original Title',
+          body: 'And here is the body!',
+          data: { data: 'goes here' },
+        };
+      
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(message),
+        });
+      }
+
+    } else if (eventType === LocationGeofencingEventType.Exit) {
+      console.log("You've left region:", region);
+      
+    }
+  });
 const styles = StyleSheet.create({
     container: {
         height:"100%",

@@ -48,7 +48,7 @@ const shopForm : FC = (props:any) => {
     return (
         <View style={styles.container}>
             <Text>Add new shop here!</Text>
-            <Input placeholder="Name" key={'name'} onChangeText={(val) => handleNameChange(val)}/>
+            <Input placeholder="Name"  onChangeText={(val) => handleNameChange(val)}/>
             <View style={{flexDirection: 'row',}}>
                 <Text style={{marginTop:15, fontSize:15}}>Type:</Text>
                 <Picker
@@ -79,8 +79,8 @@ const shopForm : FC = (props:any) => {
                 </Picker>
             </View>
             <Text>Coordinates:</Text>
-            <Input placeholder="Latitude" key={'latitude'} onChangeText={(val) => handleLatitudeChange(val)}/>
-            <Input placeholder="Lontitude" key={'lontitude'} onChangeText={(val) => handleLontitudeChange(val)}/>
+            <Input placeholder="Latitude"  onChangeText={(val) => handleLatitudeChange(val)}/>
+            <Input placeholder="Lontitude"  onChangeText={(val) => handleLontitudeChange(val)}/>
             <Button title="Create" onPress={()=> {createHandle()}}/>
             <Button title="Back" onPress={()=>props.navigation.goBack() }/>
         </View>
