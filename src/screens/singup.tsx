@@ -16,20 +16,20 @@ const signUp : FC = (props:any) => {
 
     const { signUp } = React.useContext(AuthContext)
 
-    const handleLoginChange = (val:any) => {
+    const handleLoginChange = (val:string) => {
         setData({
             ...data,
             login:val
         })
     }
 
-    const handlePasswordChange = (val:any) => {
+    const handlePasswordChange = (val:string) => {
         setData({
             ...data,
             password:val
         })
     }
-    const handleConfirmPasswordChange = (val:any) => {
+    const handleConfirmPasswordChange = (val:string) => {
         setData({
             ...data,
             confirmPassword:val
@@ -37,7 +37,7 @@ const signUp : FC = (props:any) => {
     }
 
 
-    const registerHandle = async  (login:any, password:any) => {
+    const registerHandle = async  (login:string, password:string) => {
         const isValid = await schema.isValid(data)
           console.log(isValid)
         if ( isValid===false ) {

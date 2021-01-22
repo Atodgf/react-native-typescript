@@ -17,25 +17,25 @@ const shopForm : FC = (props:any) => {
 
     const { shopForm } = React.useContext(AuthContext)
 
-    const handleNameChange = (val:any, ) => {
+    const handleNameChange = (val:string, ) => {
         setData({
             ...data,
             name:val,
         })
     }
-    const handleLatitudeChange = (val:any, ) => {
+    const handleLatitudeChange = (val:string, ) => {
         setData({
             ...data,
             latitude:val,
         })
     }
-    const handleLontitudeChange = (val:any, ) => {
+    const handleLontitudeChange = (val:string, ) => {
         setData({
             ...data,
             lontitude:val,
         })
     }
-    const shopsHandle = (name:any, type:any, price:any, latitude:any, lontitude:any, isFavourite:any) => {
+    const shopsHandle = (name:string, type:string, price:string, latitude:string, lontitude:string, isFavourite:boolean) => {
         
         shopForm(name, type, price, latitude, lontitude, isFavourite)
     }
